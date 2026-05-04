@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,6 +36,34 @@
             color: white;
             padding: 40px 30px;
             text-align: center;
+        }
+
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .lang-switch button {
+            background: none;
+            border: 2px solid white;
+            color: white;
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .lang-switch button:hover,
+        .lang-switch button.active {
+            background: white;
+            color: #4A7478;
+        }
+
+        [lang="en"] .zh-only,
+        [lang="zh-TW"] .en-only {
+            display: none;
         }
 
         .mascot {
@@ -209,22 +237,40 @@
 <body>
     <div class="container">
         <div class="header">
+            <div class="lang-switch">
+                <button onclick="setLanguage('en')" id="btn-en">English</button>
+                <button onclick="setLanguage('zh-TW')" id="btn-zh" class="active">繁體中文</button>
+            </div>
+
             <div class="mascot">
                 <img src="app_icon.png" alt="CHIHERO">
             </div>
+
             <h1>CHIHERO</h1>
-            <p class="tagline">Tester Feedback</p>
+            <p class="tagline en-only">Tester Feedback</p>
+            <p class="tagline zh-only">測試者意見回饋</p>
         </div>
 
         <div class="content">
             <form id="feedbackForm">
                 <div class="form-group">
-                    <label for="feedback">Your Feedback</label>
-                    <textarea id="feedback" name="feedback" placeholder="Share your thoughts, bugs you found, or suggestions for improvement..." required></textarea>
+                    <label for="feedback">
+                        <span class="en-only">Your Feedback</span>
+                        <span class="zh-only">您的意見回饋</span>
+                    </label>
+                    <textarea id="feedback" name="feedback" required
+                        class="en-only"
+                        placeholder="Share your thoughts, bugs you found, or suggestions for improvement..."></textarea>
+                    <textarea id="feedback-zh" name="feedback-zh"
+                        class="zh-only"
+                        placeholder="分享您的想法、發現的錯誤或改進建議..."></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label>Rating</label>
+                    <label>
+                        <span class="en-only">Rating</span>
+                        <span class="zh-only">評分</span>
+                    </label>
                     <div class="rating-group">
                         <input type="radio" name="rating" id="r1" value="1" required>
                         <label for="r1">1</label>
@@ -238,29 +284,49 @@
                         <label for="r5">5</label>
                     </div>
                     <div class="rating-labels">
-                        <span>Poor</span>
-                        <span>Excellent</span>
+                        <span class="en-only">Poor</span>
+                        <span class="zh-only">很差</span>
+                        <span class="en-only">Excellent</span>
+                        <span class="zh-only">非常好</span>
                     </div>
                 </div>
 
-                <button type="submit" class="submit-btn" id="submitBtn">Submit Feedback</button>
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span class="en-only">Submit Feedback</span>
+                    <span class="zh-only">提交意見</span>
+                </button>
 
                 <div class="message success" id="successMsg">
-                    Thank you! Your feedback has been submitted.
+                    <span class="en-only">Thank you! Your feedback has been submitted.</span>
+                    <span class="zh-only">感謝您！您的意見已成功提交。</span>
                 </div>
                 <div class="message error" id="errorMsg">
-                    Something went wrong. Please try again.
+                    <span class="en-only">Something went wrong. Please try again.</span>
+                    <span class="zh-only">發生錯誤，請再試一次。</span>
                 </div>
             </form>
         </div>
 
         <div class="branding">
-            <a href="index.html">Back to CHIHERO</a>
+            <a href="index.html">
+                <span class="en-only">Back to CHIHERO</span>
+                <span class="zh-only">返回 CHIHERO</span>
+            </a>
         </div>
     </div>
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6xJpS5mCqMHEyQPhqfAuehttFza-9FmeD7OIlvZCtGHLkZr0NJWKcNfbL3EfRvP4/exec';
+
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            document.getElementById('btn-zh').classList.toggle('active', lang === 'zh-TW');
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        const savedLang = localStorage.getItem('preferredLanguage') || 'zh-TW';
+        setLanguage(savedLang);
 
         document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -268,14 +334,20 @@
             const btn = document.getElementById('submitBtn');
             const successMsg = document.getElementById('successMsg');
             const errorMsg = document.getElementById('errorMsg');
+            const lang = document.documentElement.lang;
 
             successMsg.style.display = 'none';
             errorMsg.style.display = 'none';
             btn.disabled = true;
-            btn.textContent = 'Submitting...';
+            btn.querySelector('.en-only').textContent = 'Submitting...';
+            btn.querySelector('.zh-only').textContent = '提交中...';
+
+            const activeFeedback = lang === 'zh-TW'
+                ? document.getElementById('feedback-zh').value
+                : document.getElementById('feedback').value;
 
             const payload = {
-                feedback: document.getElementById('feedback').value,
+                feedback: activeFeedback,
                 rating: document.querySelector('input[name="rating"]:checked').value
             };
 
@@ -291,7 +363,8 @@
                 errorMsg.style.display = 'block';
             } finally {
                 btn.disabled = false;
-                btn.textContent = 'Submit Feedback';
+                btn.querySelector('.en-only').textContent = 'Submit Feedback';
+                btn.querySelector('.zh-only').textContent = '提交意見';
             }
         });
     </script>
