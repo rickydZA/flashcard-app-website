@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Flashcard Courses | 英語單字卡課程</title>
+    <title>CHIHERO - Closed Testing</title>
     <link rel="icon" type="image/png" href="app_icon.png">
     <link rel="apple-touch-icon" href="app_icon.png">
     <style>
@@ -14,52 +14,592 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #4A7478 0%, #67A2A7 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #E8F4F5;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
+            padding: 20px;
         }
 
         .container {
-            text-align: center;
-            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
         }
 
-        .app-icon {
+        .header {
+            background: linear-gradient(135deg, #67A2A7 0%, #4A7478 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .mascot {
             width: 120px;
             height: 120px;
-            border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            margin-bottom: 2rem;
+            margin: 0 auto 20px;
+            background: white;
+            border-radius: 50%;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .mascot img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
+            font-size: 2em;
+            margin-bottom: 10px;
         }
 
-        .status {
-            font-size: 1.1rem;
+        .tagline {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #4A7478;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .features {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .features li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4A7478;
+            font-weight: bold;
+        }
+
+        .cta-button {
+            display: block;
+            width: 100%;
+            padding: 18px 30px;
+            background: linear-gradient(135deg, #67A2A7 0%, #4A7478 100%);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 30px 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(74, 116, 120, 0.4);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 116, 120, 0.6);
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #4A7478;
+        }
+
+        .instructions h3 {
+            color: #4A7478;
+            margin-bottom: 10px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+        }
+
+        .instructions li {
+            margin: 8px 0;
+        }
+
+        .branding {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .branding a {
+            color: #4A7478;
+            text-decoration: none;
+        }
+
+        .branding a:hover {
+            text-decoration: underline;
+        }
+
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .lang-switch button {
+            background: none;
+            border: 2px solid white;
+            color: white;
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .lang-switch button:hover,
+        .lang-switch button.active {
+            background: white;
+            color: #4A7478;
+        }
+
+        [lang="en"] .zh-only,
+        [lang="zh-TW"] .en-only {
+            display: none;
+        }
+
+        /* Modal Styles */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-backdrop.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 480px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+        }
+
+        .modal-backdrop.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #67A2A7 0%, #4A7478 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-header h2 {
+            font-size: 1.4em;
+            margin: 0;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .step-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4A7478;
+        }
+
+        .step-card:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: #4A7478;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-right: 10px;
+        }
+
+        .step-title {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .step-description {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 12px;
+        }
+
+        .step-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #67A2A7 0%, #4A7478 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.95em;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+        }
+
+        .step-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(74, 116, 120, 0.4);
+        }
+
+        .modal-footer {
+            padding: 15px 25px 25px;
+            text-align: center;
+        }
+
+        .close-button {
+            background: #e0e0e0;
+            color: #666;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .close-button:hover {
+            background: #d0d0d0;
+        }
+
+        .modal-note {
+            background: #E8F4F5;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: #3D6A6E;
+        }
+
+        .modal-note strong {
+            color: #2C4A4D;
+        }
+
+        .step-card.completed {
+            border-left-color: #2C4A4D;
+            background: #D4ECEE;
+        }
+
+        .step-card.completed .step-number {
+            background: #2C4A4D;
+        }
+
+        .step-complete-check {
+            display: none;
+            color: #2C4A4D;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .step-card.completed .step-complete-check {
+            display: inline;
+        }
+
+        .modal-intro {
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .new-tab-hint {
+            font-size: 0.8em;
+            font-weight: normal;
             opacity: 0.9;
-            margin-bottom: 0.5rem;
         }
 
-        .subtitle {
-            font-size: 0.95rem;
-            opacity: 0.7;
+        .instruction-note {
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .instruction-note + .instruction-note {
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="app_icon.png" alt="English Flashcard Courses" class="app-icon">
-        <h1>English Flashcard Courses<br><span style="font-size: 1.4rem; font-weight: 400;">英語單字卡課程</span></h1>
-        <p class="status">Under Construction · 建置中</p>
-        <p class="subtitle">Coming soon... · 即將推出</p>
+        <div class="header">
+            <div class="lang-switch">
+                <button onclick="setLanguage('en')" id="btn-en">English</button>
+                <button onclick="setLanguage('zh-TW')" id="btn-zh" class="active">繁體中文</button>
+            </div>
+
+            <div class="mascot">
+                <img src="app_icon.png" alt="CHIHERO App Icon">
+            </div>
+
+            <h1>CHIHERO</h1>
+            <p style="font-size: 1.1em; opacity: 0.85; margin-bottom: 8px;">English Flashcards</p>
+            <p class="tagline en-only">Build your vocabulary with topic-based flashcard courses taught by a native English teacher.</p>
+            <p class="tagline zh-only">透過母語英語教師設計的主題單字卡課程，有效擴展您的英語詞彙量。</p>
+        </div>
+
+        <div class="content">
+            <div class="section en-only">
+                <h2>Join Our Closed Testing</h2>
+                <p>Help us improve English Flashcard Courses by becoming a tester! Get early access to the app and provide valuable feedback.</p>
+
+                <ul class="features">
+                    <li>Topic-based vocabulary courses</li>
+                    <li>Native English speaker audio recordings</li>
+                    <li>Spaced repetition for better retention</li>
+                    <li>No ads, no in-app purchases</li>
+                    <li>Works offline</li>
+                </ul>
+            </div>
+
+            <div class="section zh-only">
+                <h2>加入我們的封閉測試</h2>
+                <p>成為測試者來幫助我們改進英語單字卡課程！搶先體驗應用程式並提供寶貴的意見回饋。</p>
+
+                <ul class="features">
+                    <li>主題式單字課程</li>
+                    <li>母語英語教師錄音</li>
+                    <li>間隔重複學習法，有效加深記憶</li>
+                    <li>無廣告、無應用程式內購買</li>
+                    <li>離線可用</li>
+                </ul>
+            </div>
+
+            <button type="button" class="cta-button" id="cta-button" onclick="showModal()">
+                <span class="en-only">Become a Tester</span>
+                <span class="zh-only">成為測試者</span>
+            </button>
+
+            <div class="instructions">
+                <h3 class="en-only">How to Join:</h3>
+                <h3 class="zh-only">如何加入：</h3>
+                <ol class="en-only">
+                    <li>Click the "Become a Tester" button above</li>
+                    <li>First, join the Google Group (required for access)</li>
+                    <li>Then, opt-in on the Play Store to download the app</li>
+                </ol>
+                <ol class="zh-only">
+                    <li>點擊上方的「成為測試者」按鈕</li>
+                    <li>首先，加入 Google 群組（獲取權限所需）</li>
+                    <li>然後，在 Play 商店加入測試以下載應用程式</li>
+                </ol>
+                <p class="en-only instruction-note"><strong>Requirements:</strong> Google account and Android device</p>
+                <p class="zh-only instruction-note"><strong>需求：</strong>Google 帳號和 Android 裝置</p>
+                <p class="en-only instruction-note">By joining, you'll be added to our Google Group to receive updates and provide feedback.</p>
+                <p class="zh-only instruction-note">加入後，您將被加入我們的 Google 群組以接收更新和提供意見回饋。</p>
+            </div>
+        </div>
+
+        <div class="branding">
+            <p class="en-only">Recommended by <strong>李之茗外師</strong></p>
+            <p class="zh-only"><strong>李之茗外師</strong> 推薦</p>
+            <a href="https://www.englishteacher.com.tw" target="_blank" rel="noopener">www.englishteacher.com.tw</a>
+            <p style="margin-top: 15px;">
+                <a href="privacy-policy.html">Privacy Policy / 隱私權政策</a>
+            </p>
+        </div>
     </div>
+
+    <!-- Testing Signup Modal -->
+    <div class="modal-backdrop" id="signup-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title" class="en-only">Join Closed Testing</h2>
+                <h2 id="modal-title-zh" class="zh-only">加入封閉測試</h2>
+            </div>
+            <div class="modal-body">
+                <p class="en-only modal-intro">Complete both steps in order to become a tester:</p>
+                <p class="zh-only modal-intro">請依序完成以下兩個步驟成為測試者：</p>
+
+                <div class="step-card" id="step-1">
+                    <div class="step-title">
+                        <span class="step-number">1</span>
+                        <span class="en-only">Join Testing Community</span>
+                        <span class="zh-only">加入測試社群</span>
+                        <span class="step-complete-check" aria-hidden="true">&#10003;</span>
+                    </div>
+                    <p class="step-description en-only">Join our Google Group to receive updates and share feedback.</p>
+                    <p class="step-description zh-only">加入我們的 Google 群組以接收更新和分享意見回饋。</p>
+                    <button class="step-button" onclick="openGoogleGroup()" id="btn-google-group">
+                        <span class="en-only">Join Google Group <span class="new-tab-hint">(opens new tab)</span></span>
+                        <span class="zh-only">加入 Google 群組 <span class="new-tab-hint">(開啟新分頁)</span></span>
+                    </button>
+                </div>
+
+                <div class="step-card" id="step-2">
+                    <div class="step-title">
+                        <span class="step-number">2</span>
+                        <span class="en-only">Opt-in on Play Store</span>
+                        <span class="zh-only">在 Play 商店加入測試</span>
+                        <span class="step-complete-check" aria-hidden="true">&#10003;</span>
+                    </div>
+                    <p class="step-description en-only">Accept the testing invitation to download the app.</p>
+                    <p class="step-description zh-only">接受測試邀請以下載應用程式。</p>
+                    <button class="step-button" onclick="openPlayStore()" id="btn-play-store">
+                        <span class="en-only">Open Play Store <span class="new-tab-hint">(opens new tab)</span></span>
+                        <span class="zh-only">開啟 Play 商店 <span class="new-tab-hint">(開啟新分頁)</span></span>
+                    </button>
+                </div>
+
+                <div class="modal-note">
+                    <p class="en-only"><strong>Important:</strong> You must complete Step 1 before Step 2 will work. Use the same Google account for both steps.</p>
+                    <p class="zh-only"><strong>重要：</strong>您必須先完成步驟 1，步驟 2 才會生效。兩個步驟請使用相同的 Google 帳號。</p>
+                    <p class="en-only" style="margin-top: 8px;"><strong>Note:</strong> It may take a few minutes for Google Play to recognize your group membership.</p>
+                    <p class="zh-only" style="margin-top: 8px;"><strong>備註：</strong>Google Play 可能需要幾分鐘才能識別您的群組成員資格。</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="close-button" onclick="closeModal()" id="btn-close-modal">
+                    <span class="en-only">Done</span>
+                    <span class="zh-only">完成</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GOOGLE_GROUP_URL = 'https://groups.google.com/g/english-flashcards-beta';
+        const PLAY_STORE_URL = 'https://play.google.com/apps/testing/tw.com.englishteacher.flashcardcourses';
+
+        let lastFocusedElement = null;
+
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            document.getElementById('btn-zh').classList.toggle('active', lang === 'zh-TW');
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        function isModalOpen() {
+            return document.getElementById('signup-modal').classList.contains('active');
+        }
+
+        function showModal() {
+            const modal = document.getElementById('signup-modal');
+            lastFocusedElement = document.activeElement;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            setTimeout(function() {
+                document.getElementById('btn-google-group').focus();
+            }, 50);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('signup-modal');
+            if (!modal.classList.contains('active')) return;
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+                lastFocusedElement = null;
+            }
+        }
+
+        function openWithFallback(url, stepId) {
+            const newWindow = window.open(url, '_blank');
+            if (stepId) {
+                document.getElementById(stepId).classList.add('completed');
+            }
+            if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+                const lang = document.documentElement.lang;
+                const message = lang === 'en'
+                    ? 'Popup was blocked. Please allow popups for this site, or copy this URL:\n\n' + url
+                    : '彈出視窗被封鎖。請允許此網站的彈出視窗，或複製此網址：\n\n' + url;
+                alert(message);
+            }
+        }
+
+        function openGoogleGroup() {
+            openWithFallback(GOOGLE_GROUP_URL, 'step-1');
+        }
+
+        function openPlayStore() {
+            openWithFallback(PLAY_STORE_URL, 'step-2');
+        }
+
+        document.getElementById('signup-modal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (!isModalOpen()) return;
+            if (event.key === 'Escape') {
+                closeModal();
+                return;
+            }
+            if (event.key === 'Tab') {
+                const modal = document.getElementById('signup-modal');
+                const focusableElements = modal.querySelectorAll('button:not([disabled])');
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+                if (event.shiftKey && document.activeElement === firstElement) {
+                    event.preventDefault();
+                    lastElement.focus();
+                } else if (!event.shiftKey && document.activeElement === lastElement) {
+                    event.preventDefault();
+                    firstElement.focus();
+                }
+            }
+        });
+
+        const savedLang = localStorage.getItem('preferredLanguage') || 'zh-TW';
+        setLanguage(savedLang);
+    </script>
 </body>
 </html>
