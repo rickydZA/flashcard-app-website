@@ -217,10 +217,10 @@
                         <span class="en-only">Your Feedback</span>
                         <span class="zh-only">您的意見回饋</span>
                     </label>
-                    <textarea id="feedback" name="feedback" required
+                    <textarea id="feedback" name="feedback"
                         class="en-only"
                         placeholder="Share your thoughts, bugs you found, or suggestions for improvement..."></textarea>
-                    <textarea id="feedback-zh" name="feedback-zh" required
+                    <textarea id="feedback-zh" name="feedback-zh"
                         class="zh-only"
                         placeholder="分享您的想法、發現的錯誤或改進建議..."></textarea>
                 </div>
@@ -258,6 +258,8 @@
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
             document.getElementById('btn-zh').classList.toggle('active', lang === 'zh-TW');
             localStorage.setItem('preferredLanguage', lang);
+            document.getElementById('feedback').required = lang === 'en';
+            document.getElementById('feedback-zh').required = lang === 'zh-TW';
         }
 
         const savedLang = localStorage.getItem('preferredLanguage') || 'zh-TW';
