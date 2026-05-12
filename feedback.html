@@ -126,47 +126,6 @@
             margin-bottom: 28px;
         }
 
-        .rating-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .rating-group input[type="radio"] {
-            display: none;
-        }
-
-        .rating-group label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            border: 2px solid #e0e0e0;
-            cursor: pointer;
-            font-size: 1.4em;
-            font-weight: normal;
-            color: #999;
-            transition: all 0.2s;
-            margin-bottom: 0;
-        }
-
-        .rating-group input[type="radio"]:checked + label,
-        .rating-group label:hover {
-            border-color: #67A2A7;
-            background: #67A2A7;
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .rating-labels {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
-            font-size: 0.8em;
-            color: #999;
-        }
 
         .submit-btn {
             display: block;
@@ -266,30 +225,6 @@
                         placeholder="分享您的想法、發現的錯誤或改進建議..."></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label>
-                        <span class="en-only">Rating</span>
-                        <span class="zh-only">評分</span>
-                    </label>
-                    <div class="rating-group">
-                        <input type="radio" name="rating" id="r1" value="1" required>
-                        <label for="r1">1</label>
-                        <input type="radio" name="rating" id="r2" value="2">
-                        <label for="r2">2</label>
-                        <input type="radio" name="rating" id="r3" value="3">
-                        <label for="r3">3</label>
-                        <input type="radio" name="rating" id="r4" value="4">
-                        <label for="r4">4</label>
-                        <input type="radio" name="rating" id="r5" value="5">
-                        <label for="r5">5</label>
-                    </div>
-                    <div class="rating-labels">
-                        <span class="en-only">Poor</span>
-                        <span class="zh-only">很差</span>
-                        <span class="en-only">Excellent</span>
-                        <span class="zh-only">非常好</span>
-                    </div>
-                </div>
 
                 <button type="submit" class="submit-btn" id="submitBtn">
                     <span class="en-only">Submit Feedback</span>
@@ -348,7 +283,6 @@
 
             const payload = {
                 feedback: activeFeedback,
-                rating: document.querySelector('input[name="rating"]:checked').value
             };
 
             try {
